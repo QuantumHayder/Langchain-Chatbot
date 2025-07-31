@@ -1,0 +1,11 @@
+openai
+langchain
+langchain-openai
+langchain-community
+langchain-core
+langchain-text-splitters
+langchain_postgres
+psycopg
+python-dotenv
+pypdf
+streamlit

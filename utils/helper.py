@@ -1,0 +1,19 @@
+def user_ask():
+    user_input = input("Enter a question about german culture: ")
+    
+    history.add_user_message(user_input)
+    
+    docs = vector_store.similarity_search(user_input,k=2)
+    for doc in docs:
+        print(f"Page {doc.metadata['page']}: {doc.page_content[:300]}\n")
+        
+    response = chain.invoke(
+        {
+            "input": user_input
+        }
+    )
+    
+    history.add_ai_message(response.content)
+    
+    print(f"AI Response: {response.content}")
+    print(f"Chat History: {history.messages}")
