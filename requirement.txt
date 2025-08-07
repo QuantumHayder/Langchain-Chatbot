@@ -5,6 +5,7 @@ langchain-community
 langchain-core
 langchain-text-splitters
 langchain_postgres
+langchain-docling
 psycopg
 python-dotenv
 pypdf
