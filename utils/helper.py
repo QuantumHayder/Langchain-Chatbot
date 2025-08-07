@@ -1,3 +1,6 @@
+from services import history,chain
+from langchain_core.messages import AIMessage, HumanMessage
+
 def user_ask():
     user_input = input("Enter a question about german culture: ")
     
@@ -17,3 +20,14 @@ def user_ask():
     
     print(f"AI Response: {response.content}")
     print(f"Chat History: {history.messages}")
+    
+    
+def get_response(user_query):
+    user_chat_history = get_chat_history()
+    result = chain.rag_chain.invoke({"input": user_query, "chat_history": user_chat_history})
+    history.chat_history.add_message(HumanMessage(content=user_query))
+    history.chat_history.add_message(AIMessage(content=result["answer"]))
+    return result["answer"]
+
+def get_chat_history():
+    return history.chat_history.messages

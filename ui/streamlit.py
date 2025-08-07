@@ -1,6 +1,5 @@
 import streamlit as st
-from services import vector_store, history, llm
-
+from utils import helper
 def chatbot_ask():
     st.title("Chatty Botty")
     if "messages" not in st.session_state:
@@ -14,20 +13,11 @@ def chatbot_ask():
         with st.chat_message("user"):
             st.markdown(prompt)
         st.session_state.messages.append({"role":"user","content":prompt})
-        history.history.add_user_message(prompt)
+   
+        response = helper.get_response(prompt)
         
-        
-    docs = vector_store.vector_store.similarity_search(str(prompt),k=2)
-    ai_response = llm.chain.invoke(
-        {
-            "input": prompt,
-            "context": [doc.page_content for doc in docs],
-            "metadata": [doc.metadata for doc in docs]
-        }
-    )
-    
-    with st.chat_message("assistant"):
-        response = ai_response.content
-        st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.chat_message("assistant"):
+        # response =[doc.content for doc in docs]
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content":response})
     
