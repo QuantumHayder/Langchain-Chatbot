@@ -26,6 +26,8 @@ contextualize_q_system_prompt = (
     "formulate a standalone question which can be understood "
     "without the chat history. Do NOT answer the question, just "
     "reformulate it if needed and otherwise return it as is."
+    "\n\n"
+    "/no_think"
 )
 contextualize_q_prompt = ChatPromptTemplate.from_messages(
     [
@@ -33,6 +35,7 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder("chat_history"),
         ("human", "{input}"),
     ]
+    
 )
 
 # Answer question
@@ -43,6 +46,7 @@ qa_system_prompt = (
     "don't know. Use three sentences maximum and keep the answer "
     "concise."
     "\n\n"
+    "/no_think"
     "{context}"
 )
 qa_prompt = ChatPromptTemplate.from_messages(
