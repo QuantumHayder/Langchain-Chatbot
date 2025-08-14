@@ -10,3 +10,7 @@ psycopg
 python-dotenv
 pypdf
 streamlit
+llama_index
+llama-index-vector-stores-postgres
+llama-index-embeddings-huggingface
+llama-index-embeddings-openai-like

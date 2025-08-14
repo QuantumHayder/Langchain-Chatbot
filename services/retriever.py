@@ -10,10 +10,12 @@ from langchain.chains import create_history_aware_retriever
 
 def retrieve_answer(query):
    
+   # similarity_with_score
     retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 3})
     chain = RetrievalQA.from_chain_type(llm=llm,chain_type="stuff",retriever = retriever)
     answer = chain.invoke({"query": query})
     return answer
+########################################################
 
 retriever: RetrieverLike = RunnableLambda(
     lambda query: [
