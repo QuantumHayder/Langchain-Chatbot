@@ -6,8 +6,5 @@ from config import settings
 
 
 if __name__ == "__main__":
-   
-    index = chunk_and_embed("testpdf.pdf")
-    retriever = index.as_retriever()
 
     chatbot_ask()

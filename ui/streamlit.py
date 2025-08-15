@@ -13,7 +13,7 @@ def chatbot_ask():
         with st.chat_message("user"):
             st.markdown(prompt)
         st.session_state.messages.append({"role":"user","content":prompt})
-   
+
         response = helper.get_response(prompt)
         
         with st.chat_message("assistant"):

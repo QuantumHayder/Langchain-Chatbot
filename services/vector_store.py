@@ -9,6 +9,8 @@ from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.embeddings.openai_like import OpenAILikeEmbedding
 from llama_index.core import StorageContext, VectorStoreIndex
 
+import psycopg
+
 embeddings = OpenAIEmbeddings(model="text-embedding-nomic-embed-text-v1.5@q8_0",check_embedding_ctx_length=False)
 #vector_store = InMemoryVectorStore.from_documents(docs, OpenAIEmbeddings(check_embedding_ctx_length=False))
 
@@ -48,7 +50,7 @@ embed_model = OpenAILikeEmbedding(
 
 def chunk_and_embed(path): 
     # Connect to your PostgreSQL database
-    conn = psycopg2.connect(
+    conn = psycopg.connect(
         dbname=settings.dbname,
         user=settings.user,
         password=settings.password,
@@ -58,12 +60,20 @@ def chunk_and_embed(path):
     cursor = conn.cursor()
 
     # Check if the table has any rows
-    cursor.execute("SELECT COUNT(*) FROM hierarchal_chunks")
+    cursor.execute("SELECT COUNT(*) FROM data_hierarchal_chunks")
     row_count = cursor.fetchone()[0]
 
+    storage_context = StorageContext.from_defaults(vector_store=llama_vector_store)
+
     if row_count != 0:
-        print("Table already has data. Skipping embedding and chunking.")
-        return
+        index = VectorStoreIndex.from_vector_store(
+                vector_store=llama_vector_store,
+                storage_context=storage_context,
+                embed_model=embed_model,
+            )
+        print("Table has data. Loaded index from existing vector store.")
+        return index
+
 
     nodes = llamaindex_file_loader(path)
     storage_context = StorageContext.from_defaults(vector_store=llama_vector_store)
