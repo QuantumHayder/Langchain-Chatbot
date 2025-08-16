@@ -1,5 +1,7 @@
 import streamlit as st
-from utils import helper
+from services import chain, history
+from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
+
 def chatbot_ask():
     st.title("Chatty Botty")
     if "messages" not in st.session_state:
@@ -13,11 +15,15 @@ def chatbot_ask():
         with st.chat_message("user"):
             st.markdown(prompt)
         st.session_state.messages.append({"role":"user","content":prompt})
-   
-        response = helper.get_response(prompt)
+        
+        response = chain.invocation_series(prompt)
         
         with st.chat_message("assistant"):
         # response =[doc.content for doc in docs]
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content":response})
-    
+
+        history.chat_history.add_messages([
+            HumanMessage(content=prompt),
+            AIMessage(content=response)
+        ])

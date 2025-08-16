@@ -52,7 +52,7 @@ qa_system_prompt = (
 qa_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", qa_system_prompt),
-        MessagesPlaceholder("chat_history"),
+        # MessagesPlaceholder("chat_history"),
         ("human", "{input}"),
     ]
 )
