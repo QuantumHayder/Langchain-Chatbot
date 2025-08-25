@@ -1,0 +1,23 @@
+{
+	"servers": {
+		"mcp-mermaid": {
+			"command": "cmd",
+			"args": [
+				"/c",
+				"npx",
+				"-y",
+				"mcp-mermaid"
+			],
+			"type": "stdio"
+		},
+		"my-mcp-server-a4c15563": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"mermaid-mcp-server@1.0.8"
+			],
+			"type": "stdio"
+		}
+	},
+	"inputs": []
+}
